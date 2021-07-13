@@ -131,7 +131,7 @@ function invalidateAccountCache($token)
   $memcache->delete($key);
 }
 
-function fetchPodcast($id)
+function fetchPodcast($token, $id)
 {
   global $memcache;
 
@@ -142,19 +142,15 @@ function fetchPodcast($id)
   $key = "overcast:fetchPodcast:v4:$id";
   $data = $memcache->get($key);
   if ($data) {
-    //return unserialize($data);
+    return unserialize($data);
   }
 
-  //$body = fetch("https://overcast.fm/" . $id);
-  $body = fetch("https://overcast.fm/itunes1028908750/hidden-brain");
-
+  $body = fetch("https://overcast.fm/" . $id, $token);
+  
   preg_match('/extendedepisodecell/', $body, $matches);
   if (!isset($matches[0])) {
     $memcache->set($key, serialize(null), time() + 86400);
-    $podcast = new Podcast();
-    $podcast->title = $body . " " . strlen($body) . " " . "https://overcast.fm/" . $id;
-    return $podcast;
-    //return null;
+    return null;
   }
 
   libxml_use_internal_errors(true);
@@ -195,7 +191,7 @@ function fetchPodcast($id)
   return $podcast;
 }
 
-function fetchEpisode($id)
+function fetchEpisode($token, $id)
 {
   global $memcache;
 
@@ -228,7 +224,7 @@ function fetchEpisode($id)
     1
   );
 
-  $podcast = fetchPodcast($episode->podcastId);
+  $podcast = fetchPodcast($token, $episode->podcastId);
 
   if (empty($podcast->episodeDurations[$id])) {
     $memcache->delete("overcast:fetchPodcast:v4:" . $episode->podcastId);
@@ -284,7 +280,7 @@ function addEpisode($token, $id)
 
 function deleteEpisode($token, $id)
 {
-  $episode = fetchEpisode($id);
+  $episode = fetchEpisode($token, $id);
   fetch("https://overcast.fm/podcasts/delete_item/" . $episode->itemId, $token);
   invalidateAccountCache($token);
 }
@@ -325,7 +321,7 @@ function updateEpisodeProgress($token, $id, $position)
 {
   global $memcache;
 
-  $episode = fetchEpisode($id);
+  $episode = fetchEpisode($token, $id);
 
   if (isset($episode->duration) && $position >= $episode->duration) {
     $position = 2147483647;

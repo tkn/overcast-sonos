@@ -95,14 +95,14 @@ class Sonos
       $total = count($podcastIDs);
 
       foreach (array_slice($podcastIDs, $index, $count) as $podcastID) {
-        $mediaCollection[] = $this->findPodcastMediaMetadata($podcastID);
+        $mediaCollection[] = $this->findPodcastMediaMetadata($this->sessionId, $podcastID);
 
         if (microtime(true) - $start > 1) {
           break;
         }
       }
     } else {
-      $podcast = fetchPodcast($id);
+      $podcast = fetchPodcast($this->sessionId, $id);
       $activeEpisodeIDs = fetchAccount($this->sessionId)->episodeIDs;
       $total = count($podcast->episodeIDs);
 
@@ -162,7 +162,7 @@ class Sonos
 
     $id = $params->id;
 
-    $episode = fetchEpisode($id);
+    $episode = fetchEpisode($this->sessionId, $id);
     if (is_null($episode)) {
       return new SoapFault("Client.ItemNotFound", "Episode not found.");
     }
@@ -311,7 +311,7 @@ class Sonos
   function findPodcastMediaMetadata($id)
   {
     $media = new StdClass();
-    $podcast = fetchPodcast($id);
+    $podcast = fetchPodcast($this->sessionId, $id);
 
     if (is_null($podcast)) {
       $media->id = $id;
@@ -338,7 +338,7 @@ class Sonos
   function findEpisodeMediaMetadata($id, $favorite)
   {
     $media = new StdClass();
-    $episode = fetchEpisode($id);
+    $episode = fetchEpisode($this->sessionId, $id);
 
     if (is_null($episode)) {
       $media->id = $id;
