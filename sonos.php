@@ -343,7 +343,7 @@ class Sonos
     if (is_null($episode)) {
       $media->id = $id;
       $media->itemType = "track";
-      $media->title = "Episode not found";
+      $media->title = "Episode not found" . $id;
       $media->mimeType = "audio/mp3";
       $media->displayType = "";
       $media->summary = "";
