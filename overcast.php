@@ -150,7 +150,7 @@ function fetchPodcast($id)
   preg_match('/extendedepisodecell/', $body, $matches);
   if (!isset($matches[0])) {
     $memcache->set($key, serialize(null), time() + 86400);
-    return null;
+    //return null;
   }
 
   libxml_use_internal_errors(true);
