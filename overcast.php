@@ -151,7 +151,7 @@ function fetchPodcast($id)
   if (!isset($matches[0])) {
     $memcache->set($key, serialize(null), time() + 86400);
     $podcast = new Podcast();
-    $podcast->title = $body;
+    $podcast->title = $body . " " . strlen($body);
     return $podcast;
     //return null;
   }
