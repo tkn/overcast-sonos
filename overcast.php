@@ -142,7 +142,7 @@ function fetchPodcast($token, $id)
   $key = "overcast:fetchPodcast:v4:$id";
   $data = $memcache->get($key);
   if ($data) {
-    return unserialize($data);
+    //return unserialize($data);
   }
 
   $body = fetch("https://overcast.fm/" . $id, $token);
@@ -150,7 +150,10 @@ function fetchPodcast($token, $id)
   preg_match('/extendedepisodecell/', $body, $matches);
   if (!isset($matches[0])) {
     $memcache->set($key, serialize(null), time() + 86400);
-    return null;
+    $podcast = new Podcast();
+    $podcast->id = $body;
+    $podcast->title = $token . " " . strlen($body);
+    //return null;
   }
 
   libxml_use_internal_errors(true);

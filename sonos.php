@@ -342,7 +342,7 @@ class Sonos
 
     if (is_null($episode)) {
       $media->id = $id;
-      $media->itemType = "track";
+      $media->itemType = "show";
       $media->title = "Episode not found: " . $id;
       $media->mimeType = "audio/mp3";
       $media->displayType = "";
@@ -354,7 +354,7 @@ class Sonos
       $media->isFavorite = $favorite;
       $media->displayType = "";
       $media->mimeType = $episode->mimeType;
-      $media->itemType = "track";
+      $media->itemType = "show";
       $media->title = $episode->title;
       $media->summary = "";
       $media->trackMetadata = new StdClass();
