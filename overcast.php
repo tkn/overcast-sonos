@@ -390,7 +390,7 @@ function login($email, $password)
 
   curl_close($ch);
 
-  preg_match('/Set-Cookie: o=([^;]+);/', $header, $matches);
+  preg_match('/Set-Cookie: o=([^;]+);/i', $header, $matches);
   if (isset($matches[1])) {
     return $matches[1];
   } else {
