@@ -95,7 +95,7 @@ class Sonos
       $total = count($podcastIDs);
 
       foreach (array_slice($podcastIDs, $index, $count) as $podcastID) {
-        $mediaCollection[] = $this->findPodcastMediaMetadata($this->sessionId, $podcastID);
+        $mediaCollection[] = $this->findPodcastMediaMetadata($podcastID);
 
         if (microtime(true) - $start > 1) {
           break;
