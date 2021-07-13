@@ -142,7 +142,7 @@ function fetchPodcast($id)
   $key = "overcast:fetchPodcast:v4:$id";
   $data = $memcache->get($key);
   if ($data) {
-    return unserialize($data);
+    //return unserialize($data);
   }
 
   $body = fetch("https://overcast.fm/" . $id);
