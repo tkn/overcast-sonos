@@ -317,7 +317,7 @@ class Sonos
       $media->id = $id;
       $media->itemType = "album";
       $media->displayType = "";
-      $media->title = "Podcast not found";
+      $media->title = "Podcast not found" . $id;
       $media->canPlay = false;
       $media->canAddToFavorites = false;
       $media->containsFavorite = false;
