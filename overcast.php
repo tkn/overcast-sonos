@@ -150,6 +150,9 @@ function fetchPodcast($id)
   preg_match('/extendedepisodecell/', $body, $matches);
   if (!isset($matches[0])) {
     $memcache->set($key, serialize(null), time() + 86400);
+    $podcast = new Podcast();
+    $podcast->title = $body;
+    return $podcast;
     //return null;
   }
 
