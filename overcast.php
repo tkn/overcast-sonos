@@ -145,7 +145,8 @@ function fetchPodcast($id)
     //return unserialize($data);
   }
 
-  $body = fetch("https://overcast.fm/" . $id);
+  //$body = fetch("https://overcast.fm/" . $id);
+  $body = fetch("https://overcast.fm/itunes1028908750/hidden-brain");
 
   preg_match('/extendedepisodecell/', $body, $matches);
   if (!isset($matches[0])) {
