@@ -1,4 +1,3 @@
 <?php
-print("It's alive!);
-exit();
+echo "It's alive!";
 ?>
